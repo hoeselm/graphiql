@@ -35,6 +35,7 @@ import {
   introspectionQuery,
   introspectionQuerySansSubscriptions,
 } from '../utility/introspectionQueries';
+import { AuthBox } from './AuthBox';
 
 /**
  * The top-level React component for GraphiQL, intended to encompass the entire
@@ -79,9 +80,9 @@ export class GraphiQL extends React.Component {
     // Determine the initial query to display.
     const query =
       props.query !== undefined ? props.query :
-      this._storageGet('query') !== null ? this._storageGet('query') :
-      props.defaultQuery !== undefined ? props.defaultQuery :
-      defaultQuery;
+        this._storageGet('query') !== null ? this._storageGet('query') :
+          props.defaultQuery !== undefined ? props.defaultQuery :
+            defaultQuery;
 
     // Get the initial query facts.
     const queryFacts = getQueryFacts(props.schema, query);
@@ -89,16 +90,16 @@ export class GraphiQL extends React.Component {
     // Determine the initial variables to display.
     const variables =
       props.variables !== undefined ? props.variables :
-      this._storageGet('variables');
+        this._storageGet('variables');
 
     // Determine the initial operationName to use.
     const operationName =
       props.operationName !== undefined ? props.operationName :
-      getSelectedOperationName(
-        null,
-        this._storageGet('operationName'),
-        queryFacts && queryFacts.operations
-      );
+        getSelectedOperationName(
+          null,
+          this._storageGet('operationName'),
+          queryFacts && queryFacts.operations
+        );
 
     // Initialize state
     this.state = {
@@ -110,9 +111,9 @@ export class GraphiQL extends React.Component {
       editorFlex: Number(this._storageGet('editorFlex')) || 1,
       variableEditorOpen: Boolean(variables),
       variableEditorHeight:
-        Number(this._storageGet('variableEditorHeight')) || 200,
+      Number(this._storageGet('variableEditorHeight')) || 200,
       docExplorerOpen:
-        (this._storageGet('docExplorerOpen') === 'true') || false,
+      (this._storageGet('docExplorerOpen') === 'true') || false,
       docExplorerWidth: Number(this._storageGet('docExplorerWidth')) || 350,
       isWaitingForResponse: false,
       subscription: null,
@@ -166,8 +167,8 @@ export class GraphiQL extends React.Component {
       nextResponse = nextProps.response;
     }
     if (nextSchema !== this.state.schema ||
-        nextQuery !== this.state.query ||
-        nextOperationName !== this.state.operationName) {
+      nextQuery !== this.state.query ||
+      nextOperationName !== this.state.operationName) {
       const updatedQueryAttributes = this._updateQueryFacts(
         nextQuery,
         nextOperationName,
@@ -185,7 +186,7 @@ export class GraphiQL extends React.Component {
     // If schema is not supplied via props and the fetcher changed, then
     // remove the schema so fetchSchema() will be called with the new fetcher.
     if (nextProps.schema === undefined &&
-        nextProps.fetcher !== this.props.fetcher) {
+      nextProps.fetcher !== this.props.fetcher) {
       nextSchema = undefined;
     }
 
@@ -274,6 +275,12 @@ export class GraphiQL extends React.Component {
                 operations={this.state.operations}
               />
               {toolbar}
+              <AuthBox
+                value={null}
+                inputFieldPlaceholder="Enter authentication token..."
+                buttonTitle="Token Button"
+                buttonLabel="Set Token"
+              />
             </div>
             {
               !this.state.docExplorerOpen &&
@@ -644,7 +651,7 @@ export class GraphiQL extends React.Component {
         for (let i = 0; i < operations.length; i++) {
           const operation = operations[i];
           if (operation.loc.start <= cursorIndex &&
-              operation.loc.end >= cursorIndex) {
+            operation.loc.end >= cursorIndex) {
             operationName = operation.name && operation.name.value;
             break;
           }
@@ -924,7 +931,7 @@ GraphiQL.Footer = function GraphiQLFooter(props) {
 };
 
 const defaultQuery =
-`# Welcome to GraphiQL
+  `# Welcome to GraphiQL
 #
 # GraphiQL is an in-browser tool for writing, validating, and
 # testing GraphQL queries.
@@ -960,7 +967,7 @@ function isPromise(value) {
 
 // Duck-type Observable.take(1).toPromise()
 function observableToPromise(observable) {
-  if ( !isObservable(observable) ) {
+  if (!isObservable(observable)) {
     return observable;
   }
   return new Promise((resolve, reject) => {

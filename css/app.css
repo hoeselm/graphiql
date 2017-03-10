@@ -586,3 +586,11 @@ div.CodeMirror-lint-tooltip > * + * {
 .cm-atom {
   color: #CA9800;
 }
+
+div.authBox {
+  margin: 0 14px 0 14px
+}
+
+div.authBox > input {
+  width: 300px;
+}
