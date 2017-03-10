@@ -1,3 +1,9 @@
+Fork of [graphiql](https://github.com/graphql/graphiql) to support setting an auth token on the window object.
+
+![GraphiQL](resources/graphiql_token.png)
+
+Original Readme:
+
 GraphiQL
 ========
 
